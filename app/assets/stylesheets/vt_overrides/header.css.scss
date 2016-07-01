@@ -1,0 +1,9 @@
+/* VT specific styles */
+.navbar-inverse {
+  background-color: #660000;
+  border-color: #ff6600;
+}
+#header-navbar .navbar-brand {
+  background-image: url('/assets/vt_overrides/vt_logo.svg');
+  background-position: center left;
+}
