@@ -219,6 +219,9 @@ class CatalogController < ApplicationController
     # 'positron' http://cartodb.com/basemaps/
     # 'darkMatter' http://cartodb.com/basemaps/
     config.basemap_provider = 'mapquest'
+
+    # Add contact link to navbar
+    config.add_nav_action(:contact, partial: 'blacklight/nav/contact')
   end
 
 
