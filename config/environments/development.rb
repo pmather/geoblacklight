@@ -38,4 +38,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # set smtp settings using env vars
+  config.CONTACT_DOMAIN = ENV['CONTACT_DOMAIN']
+  config.CONTACT_EMAIL = ENV['CONTACT_EMAIL']
+  config.CONTACT_PASSWORD = ENV['CONTACT_PASSWORD']
 end

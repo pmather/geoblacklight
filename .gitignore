@@ -43,3 +43,6 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Used for setting ENV vars for dev
+config/app_environment_variables.rb

@@ -76,4 +76,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # set smtp settings using env vars  
+  config.CONTACT_DOMAIN = ENV['CONTACT_DOMAIN']
+  config.CONTACT_EMAIL = ENV['CONTACT_EMAIL']
+  config.CONTACT_PASSWORD = ENV['CONTACT_PASSWORD']
+
 end
