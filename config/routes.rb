@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   get 'contact', to: 'contact#form', as: 'contact_form'
   post 'contact-submit', to: 'contact#submit', as: 'contact_form_submit'
-  get 'contact-submit', to: 'contact#form'
 
   root to: "catalog#index"
   blacklight_for :catalog
