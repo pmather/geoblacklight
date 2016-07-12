@@ -1,7 +1,6 @@
 class ContactController < ApplicationController
-  require 'vt/issue_types'  
   def form
-    @issue_types = IssueTypes.load
+    @issue_types = Rails.application.config.issue_types
   end
 
   def submit
