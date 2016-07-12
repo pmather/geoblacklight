@@ -1,6 +1,5 @@
 issue_types = [
   "Depositing content",
-  "Making changes to my content",
   "Browsing and searching",
   "Reporting a problem",
   "General inquiry or request"
