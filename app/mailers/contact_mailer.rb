@@ -5,6 +5,6 @@ class ContactMailer < ApplicationMailer
     @subject = subject
     @category = category
     @message = message
-    mail(to: Rails.application.config.CONTACT_EMAIL, reply_to: @email, subject: subject)    
+    mail(reply_to: @email, subject: subject)    
   end
 end
