@@ -11,22 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630190015) do
+ActiveRecord::Schema.define(version: 20160809191605) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
     t.string   "user_type"
     t.string   "document_id"
-    t.string   "title"
+    t.string   "document_type"
+    t.binary   "title"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.string   "document_type"
   end
 
+  add_index "bookmarks", ["document_id"], name: "index_bookmarks_on_document_id"
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id"
 
   create_table "searches", force: :cascade do |t|
-    t.text     "query_params"
+    t.binary   "query_params"
     t.integer  "user_id"
     t.string   "user_type"
     t.datetime "created_at",   null: false

@@ -48,7 +48,12 @@ end
 
 gem 'blacklight'
 gem 'geoblacklight'
-gem 'jettywrapper'
-gem 'rsolr', '~> 1.0.6'
+group :development, :test do
+  gem 'solr_wrapper', '>= 0.3'
+end
+
+gem 'rsolr', '~> 1.0'
 gem 'devise'
-gem 'devise-guests', '~> 0.3'
+gem 'devise-guests', '~> 0.5'
+group :development, :test do
+end
