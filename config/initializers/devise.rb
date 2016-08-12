@@ -6,7 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'a072ba4b03f1cde6702f51a03bef3ea62bc357181a059240e7c455267fe0ba17078efc98c4efaec639c9c919f2830900ab0311926e72e8c712114386836904de'
+  # config.secret_key = 'efcc14527792e22d8ea4fdaef1c8095444fbfb0f0025e2f170a821f2b586a9e4aebc02e67038d75ae25e01ee45e61f83e4d0759d6e66acd85af6ed7dc6761e28'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -102,7 +102,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'a1463e33f5822d14600845570464af9f57583cb9f04216c360b2321ed436bcfae72eb7e157afb5b769c84ec64febb2c883b908e8d959b9c167d52d85552b2bf5'
+  # config.pepper = '66f1b32f5230bca831bb76f75acc89923dbbb1c118c8282397c5733fdf7cec201a79b5d883eaf4019b0f43c32cc72c3e1f4c6c1ecd0f720f881b3ecc947e9c3b'
 
   # Send a notification email when the user's password is changed
   # config.send_password_change_notification = false
