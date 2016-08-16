@@ -225,6 +225,9 @@ class CatalogController < ApplicationController
     # Configuration for autocomplete suggestor
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
+
+    # Add contact link to navbar
+    config.add_nav_action(:contact, partial: 'blacklight/nav/contact')
   end
 
 
