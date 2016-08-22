@@ -7,6 +7,33 @@ require 'uri'
 require 'yaml'
 
 class DataIngest
+
+  @@fields = {
+    "dc:identifier": {required: true},
+    "dc:rights": {required: true},
+    "dct:provenance": {required: true},
+    "dct:references": {required: true},
+    "dc:creator": {required: true},
+    "dc:language": {required: true},
+    "dc:publisher": {required: true},
+    "dc:relation": {required: false},
+    "dc:type": {required: true},
+    "dct:spatial": {required: true},
+    "dct:temporal": {required: false},
+    "dct:issued": {required: false},
+    "ispartof": {required: true},
+    "georss:box": {required: true},
+    "georss:point": {required: false},
+    "georss:polygon": {required: false},
+    "dc:title": {required: true},
+    "dc:description": {required: true},
+    "dc:format": {required: true},
+    "dc:subject": {required: false},
+    "layer:id": {required: true},
+    "layer:modified": {required: false},
+    "layer:slug": {required: true},
+    "layer:geom_type": {required: true}
+  }
     
   def createreport(filename, content)
     File.open(filename, 'w') { |file| file.write(content) }
@@ -30,11 +57,9 @@ class DataIngest
 
 
   def solrdatahash(content)
-    rec = {}
-    uuid = Digest::SHA256.hexdigest content[1] 
+    rec = {} 
     timestring = Time.now().strftime("%Y-%m-%dT%H:%M:%SZ") 
 
-    rec['uuid'] = uuid
     rec['dc_identifier_s'] = content[1]
     rec['dc_rights_s'] = content[2]
     rec['dct_provenance_s'] = content[3]
@@ -83,24 +108,25 @@ class DataIngest
   end
 
 
-  def validaterecord(content)
-    result = ""
-    fields = ["uuid","dc:identifier", "dc:rights", "dct:provenance", "dct:references",
-          "dc:creator", "dc:language", "dc:publisher", "dc:relation", 
-          "dc:type", "dct:spatial", "dct:temporal", "dct:issued", 
-          "isPartOf", "georss:box", "georss:point", "georss:polygon",
-          "dc:title","dc:description","dc:format","dc:subject",
-          "layer:id","layer:modified","layer:slug","layer:geom_type"]
-    emptystr = " is empty. "
+  def validaterecord(row)
+    if row.length === 0
+      return "Row does not contain record."
+    end
 
-    for i, item in content.each_with_index.map {|x, i| [i, x]}
-      if item[1].nil? and ![0, 8, 11, 12, 15, 16, 20, 22].include? i
-        result += fields[i] + emptystr  
-      elsif i == 1 and !is_valid_url(item[1])
+    result = ""
+    row.each do |key, content|
+      item = /<(.+)>/.match(key).captures[0].downcase rescue ""
+
+      if @@fields.key?(item.to_sym) && @@fields[item.to_sym][:required] && content.blank?
+        result += "#{item} is empty. "
+
+      elsif item == "dc:identifier" and !is_valid_url(content)
         result += "dc_identifier field is not a valid URL. "
-      elsif i == 14 and content[14].split(",").length != 4
+      
+      elsif item == "georss:box" and content.split(",").length != 4
         result += "georss_box field is incorrect. "
-      elsif i == 14 and !content[14].split(",").all? {|i| is_number?( i ) }
+
+      elsif item == "georss:box" and !content.split(",").all? {|i| is_number?( i ) }
         result += "georss_box field should be all numbers. "  
       end
     end
