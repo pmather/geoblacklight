@@ -47,7 +47,7 @@ end
 
 
 gem 'blacklight'
-gem 'geoblacklight'
+gem 'geoblacklight', :git => 'https://github.com/geoblacklight/geoblacklight.git', :ref => '69144fb'
 group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
 end
