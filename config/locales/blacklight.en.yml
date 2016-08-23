@@ -4,3 +4,6 @@ en:
 
     header_links:
       contact: 'Contact'
+
+    footer:
+      copyright_html: "Copyright &copy; 2015 Virginia Polytechnic Institute and State University"
