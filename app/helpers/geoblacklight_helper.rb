@@ -37,10 +37,17 @@ module GeoblacklightHelper
   end
 
   def reference_links(args)
-    ref = JSON.parse(args[:value][0]) rescue nil
+    ref_obj = JSON.parse(args[:value][0]) rescue nil
     reference_links = []
-    ref.each do |key,value|
-      reference_links.push(link_to value, value)
+    if !ref_obj.nil?
+      ref = ref_obj["http://www.opengis.net/def/serviceType/ogc/wcs"]
+      if ref.respond_to? "each"
+        ref.each do |value|
+          reference_links.push(link_to value, value)
+        end
+      else
+        reference_links.push(link_to ref, ref)
+      end
     end
     return reference_links.join(',').html_safe
   end

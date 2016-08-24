@@ -126,7 +126,7 @@ class CatalogController < ApplicationController
     config.add_show_field Settings.FIELDS.SUBJECT, label: 'Subject(s)', itemprop: 'keywords', link_to_search: true
     config.add_show_field Settings.FIELDS.TEMPORAL, label: 'Year', itemprop: 'temporal'
     config.add_show_field Settings.FIELDS.PROVENANCE, label: 'Held by', link_to_search: true
-    config.add_show_field Settings.FIELDS.REFERENCES, label: 'Reference', itemprop: 'reference', helper_method: :reference_links
+    config.add_show_field Settings.FIELDS.REFERENCES, label: 'Reference(s)', itemprop: 'references', helper_method: :reference_links
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
