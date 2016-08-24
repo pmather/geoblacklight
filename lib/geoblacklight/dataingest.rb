@@ -64,9 +64,9 @@ class DataIngest
     rec['dc_rights_s'] = content[2]
     rec['dct_provenance_s'] = content[3]
     if !content[4].nil?
-      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\"}"
+      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\",\"http://www.opengis.net/def/serviceType/ogc/wcs\":\"" + content[4] + "\"}"
     else
-      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\",\"http://www.opengis.net/def/serviceType/ogc/wcs\":\"" + content[4] + "\"}"     
+      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\"}"
     end
     rec['dc_creator_sm'] = content[5]
     rec['dc_language_s'] = content[6]
