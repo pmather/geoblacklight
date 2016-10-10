@@ -57,3 +57,5 @@ gem 'devise'
 gem 'devise-guests', '~> 0.5'
 group :development, :test do
 end
+gem "gelf"
+gem "lograge"
