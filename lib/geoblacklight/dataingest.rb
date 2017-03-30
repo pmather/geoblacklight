@@ -162,7 +162,7 @@ class DataIngest
         totalrecs = 0
         ingestedrecs = 0
         index = 1
-        CSV.foreach(File.join(uploadpath, uploadfile), :headers => true) do |row|
+        CSV.foreach(File.join(uploadpath, uploadfile), headers: true, encoding: 'iso-8859-1:utf-8' ) do |row|
           errmsg = validaterecord(row)
 
           if errmsg.length > 0
