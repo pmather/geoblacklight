@@ -12,7 +12,7 @@ class DataIngest
     "dc:identifier": {required: true},
     "dc:rights": {required: true},
     "dct:provenance": {required: true},
-    "dct:references": {required: true},
+    "dct:references": {required: false},
     "dc:creator": {required: true},
     "dc:language": {required: true},
     "dc:publisher": {required: true},
