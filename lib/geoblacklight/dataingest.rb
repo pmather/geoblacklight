@@ -99,11 +99,15 @@ class DataIngest
 
 
   def is_valid_url(urlstring)
-    uri = URI.parse(urlstring)
-    if uri.kind_of?(URI::HTTP) or uri.kind_of?(URI::HTTPS)
+    begin
+      uri = URI.parse(urlstring)
+      if uri.kind_of?(URI::HTTP) or uri.kind_of?(URI::HTTPS)
         return true
       else
         return false
+      end
+    rescue
+      return false
     end
   end
 
@@ -115,19 +119,23 @@ class DataIngest
 
     result = ""
     row.each do |key, content|
-      item = /<(.+)>/.match(key).captures[0].downcase rescue ""
+      begin
+        item = /<(.+)>/.match(key).captures[0].downcase rescue ""
 
-      if @@fields.key?(item.to_sym) && @@fields[item.to_sym][:required] && content.blank?
-        result += "#{item} is empty. "
+        if @@fields.key?(item.to_sym) && @@fields[item.to_sym][:required] && content.blank?
+          result += "#{item} is empty. "
 
-      elsif item == "dc:identifier" and !is_valid_url(content)
-        result += "dc_identifier field is not a valid URL. "
+        elsif item == "dc:identifier" && !is_valid_url(content)
+          result += "dc_identifier field is not a valid URL. "
       
-      elsif item == "georss:box" and content.split(",").length != 4
-        result += "georss_box field is incorrect. "
+        elsif item == "georss:box" && (!content.respond_to?("split") || content.split(",").length != 4)
+          result += "georss_box field is incorrect. "
 
-      elsif item == "georss:box" and !content.split(",").all? {|i| is_number?( i ) }
-        result += "georss_box field should be all numbers. "  
+        elsif item == "georss:box" && (!content.respond_to?("split") || !content.split(",").all? {|i| is_number?( i ) })
+          result += "georss_box field should be all numbers. "  
+        end
+      rescue
+        result += "unknown error parsing row. "
       end
     end
 
@@ -179,13 +187,13 @@ class DataIngest
         end
 
         # create log report file
-        logfilename = File.join(logpath, prefix + Time.now().strftime("%Y%m%d%H%M%S").to_s + ".log.txt")
+        logfilename = File.join(logpath, uploadfile + "_" + Time.now().strftime("%Y%m%d%H%M%S").to_s + ".log.txt")
         logcontent = uploadfile + ": Total ingest records: " + totalrecs.to_s + ", ingested " + ingestedrecs.to_s + " records."
         createreport(logfilename, logcontent)
 
         # create error report file
         if totalrecs != ingestedrecs
-          errorfilename = File.join(errorpath, prefix + Time.now().strftime("%Y%m%d%H%M%S").to_s + ".error.txt")
+          errorfilename = File.join(errorpath, uploadfile + "_" + Time.now().strftime("%Y%m%d%H%M%S").to_s + ".error.txt")
           createreport(errorfilename, uploadfile + "\n" + errorcontent)
         end
 
