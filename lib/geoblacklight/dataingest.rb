@@ -50,6 +50,8 @@ class DataIngest
       return "dmf_"
     elsif filename.start_with?("cgit_")
       return "cgit_"
+    elsif filename.start_with?("gdrive_")
+      return "gdrive_"
     else
       return ""
     end
