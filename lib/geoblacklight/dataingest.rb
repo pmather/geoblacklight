@@ -16,14 +16,12 @@ class DataIngest
     "dc:creator": {required: true},
     "dc:language": {required: true},
     "dc:publisher": {required: true},
-    "dc:relation": {required: false},
     "dc:type": {required: true},
     "dct:spatial": {required: true},
     "dct:temporal": {required: false},
     "dct:issued": {required: false},
     "ispartof": {required: true},
-    "georss:box": {required: true},
-    "georss:point": {required: false},
+    "solr:geom": {required: true},
     "georss:polygon": {required: false},
     "dc:title": {required: true},
     "dc:description": {required: true},
@@ -62,35 +60,34 @@ class DataIngest
     rec = {} 
     timestring = Time.now().strftime("%Y-%m-%dT%H:%M:%SZ") 
 
-    rec['dc_identifier_s'] = content[1]
-    rec['dc_rights_s'] = content[2]
+    rec['dc_identifier_s'] = content[0]
+    rec['dc_rights_s'] = content[1]
+    rec['dc_title_s'] = content[2]
     rec['dct_provenance_s'] = content[3]
-    if !content[4].nil?
-      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\",\"http://www.opengis.net/def/serviceType/ogc/wcs\":\"" + content[4] + "\"}"
+    if !content[17].nil?
+      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[0] + "\",\"http://www.opengis.net/def/serviceType/ogc/wcs\":\"" + content[17] + "\"}"
     else
-      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[1] + "\"}"
+      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[0] + "\"}"
     end
-    rec['dc_creator_sm'] = content[5]
-    rec['dc_language_s'] = content[6]
-    rec['dc_publisher_s'] = content[7]
-    rec['dc_type_s'] = content[9]
-    rec['dct_spatial_sm'] = content[10]
-    rec['dct_temporal_sm'] = content[11]
-    rec['dct_issued_s'] = timestring
-    rec['dct_isPartOf_sm'] = content[13]
-    rec['georss_box_s'] = content[14]
-    if !content[14].nil?
-      gdata = content[14].split(",")  
+    rec['layer_slug_s'] = content[5]
+    if !content[6].nil?
+      gdata = content[6].split(",")
       rec['solr_geom'] = "ENVELOPE("+ gdata[1] + "," + gdata[3] + "," + gdata[2] + "," + gdata[0] + ")"
     end
-    rec['dc_title_s'] = content[17]
-    rec['dc_description_s'] = content[18]
-    rec['dc_format_s'] = content[19]
-    rec['dc_subject_sm'] = content[20]
+    rec['dc_creator_sm'] = content[7]
+    rec['dc_description_s'] = content[8]
+    rec['dc_format_s'] = content[9]
+    rec['dc_language_sm'] = content[10]
+    rec['dc_publisher_sm'] = content[11]
+    rec['dc_subject_sm'] = content[13]
+    rec['dc_type_s'] = content[14]
+    rec['dct_isPartOf_sm'] = content[15]
+    rec['dct_issued_s'] = timestring
+    rec['dct_spatial_sm'] = content[18]
+    rec['dct_temporal_sm'] = content[19]
+    rec['layer_geom_type_s'] = content[20]
     rec['layer_id_s'] = content[21]
     rec['layer_modified_dt'] = timestring
-    rec['layer_slug_s'] = content[23]
-    rec['layer_geom_type_s'] = content[24]
 
     return rec
   end
@@ -130,11 +127,11 @@ class DataIngest
         elsif item == "dc:identifier" && !is_valid_url(content)
           result += "dc_identifier field is not a valid URL. "
       
-        elsif item == "georss:box" && (!content.respond_to?("split") || content.split(",").length != 4)
-          result += "georss_box field is incorrect. "
+        elsif item == "solr:geom" && (!content.respond_to?("split") || content.split(",").length != 4)
+          result += "solr_geom field is incorrect. "
 
-        elsif item == "georss:box" && (!content.respond_to?("split") || !content.split(",").all? {|i| is_number?( i ) })
-          result += "georss_box field should be all numbers. "  
+        elsif item == "solr:geom" && (!content.respond_to?("split") || !content.split(",").all? {|i| is_number?( i ) })
+          result += "solr_geom field should be all numbers. "
         end
       rescue
         result += "unknown error parsing row. "
