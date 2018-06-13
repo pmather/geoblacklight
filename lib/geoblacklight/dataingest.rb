@@ -16,12 +16,12 @@ class DataIngest
     "dc:creator": {required: true},
     "dc:language": {required: true},
     "dc:publisher": {required: true},
-    "dc:type": {required: true},
+    "dc:type": {required: false},
     "dct:spatial": {required: true},
     "dct:temporal": {required: false},
     "dct:issued": {required: false},
     "ispartof": {required: true},
-    "georss:box": {required: true},
+    "solr:geom": {required: true},
     "georss:polygon": {required: false},
     "dc:title": {required: true},
     "dc:description": {required: true},
@@ -70,7 +70,6 @@ class DataIngest
       rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[0] + "\"}"
     end
     rec['layer_slug_s'] = content[5]
-    rec['georss_box_s'] = content[6]
     if !content[6].nil?
       gdata = content[6].split(",")
       rec['solr_geom'] = "ENVELOPE("+ gdata[1] + "," + gdata[3] + "," + gdata[2] + "," + gdata[0] + ")"
@@ -78,8 +77,8 @@ class DataIngest
     rec['dc_creator_sm'] = content[7]
     rec['dc_description_s'] = content[8]
     rec['dc_format_s'] = content[9]
-    rec['dc_language_s'] = content[10]
-    rec['dc_publisher_s'] = content[11]
+    rec['dc_language_sm'] = content[10]
+    rec['dc_publisher_sm'] = content[11]
     rec['dc_subject_sm'] = content[13]
     rec['dc_type_s'] = content[14]
     rec['dct_isPartOf_sm'] = content[15]
@@ -128,10 +127,10 @@ class DataIngest
         elsif item == "dc:identifier" && !is_valid_url(content)
           result += "dc_identifier field is not a valid URL. "
       
-        elsif item == "georss:box" && (!content.respond_to?("split") || content.split(",").length != 4)
+        elsif item == "solr:geom" && (!content.respond_to?("split") || content.split(",").length != 4)
           result += "solr_geom field is incorrect. "
 
-        elsif item == "georss:box" && (!content.respond_to?("split") || !content.split(",").all? {|i| is_number?( i ) })
+        elsif item == "solr:geom" && (!content.respond_to?("split") || !content.split(",").all? {|i| is_number?( i ) })
           result += "solr_geom field should be all numbers. "
         end
       rescue
