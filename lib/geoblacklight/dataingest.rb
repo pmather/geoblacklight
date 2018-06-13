@@ -16,7 +16,7 @@ class DataIngest
     "dc:creator": {required: true},
     "dc:language": {required: true},
     "dc:publisher": {required: true},
-    "dc:type": {required: false},
+    "dc:type": {required: true},
     "dct:spatial": {required: true},
     "dct:temporal": {required: false},
     "dct:issued": {required: false},
