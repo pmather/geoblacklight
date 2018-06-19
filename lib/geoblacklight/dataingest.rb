@@ -66,8 +66,6 @@ class DataIngest
     rec['dct_provenance_s'] = content[3]
     if !content[17].nil?
       rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[0] + "\",\"http://www.opengis.net/def/serviceType/ogc/wcs\":\"" + content[17] + "\"}"
-    else
-      rec['dct_references_s'] = "{\"http://schema.org/downloadUrl\":\"" + content[0] + "\"}"
     end
     rec['layer_slug_s'] = content[5]
     if !content[6].nil?
