@@ -233,7 +233,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   lograge
-  rails (= 4.2.10)
+  rails (~> 4.2.10)
   rsolr (~> 1.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
